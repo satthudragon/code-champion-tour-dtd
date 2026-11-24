@@ -1,0 +1,2598 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code Champion Tour DTD — Online Judge HSG Tin 9 Hưng Yên</title>
+  <style>
+    :root {
+      --bg-app: #090d16;
+      --bg-surface: #111827;
+      --bg-surface-2: #1e293b;
+      --bg-editor: #070a11;
+      --border-subtle: #1f2937;
+      --border-strong: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #2563eb;
+      --accent-blue-hover: #3b82f6;
+      --accent-amber: #f59e0b;
+      --accent-emerald: #10b981;
+      --accent-rose: #ef4444;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, 'Courier New', monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg-app);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .font-mono-code {
+      font-family: var(--font-mono);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+
+    /* ==================== HEADER & NAVIGATION ==================== */
+    .app-header {
+      background: linear-gradient(135deg, #0b1120 0%, #0f294a 55%, #0b1120 100%);
+      border-bottom: 1px solid #1e3a5f;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    .container-main {
+      max-width: 1320px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 0;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      color: #090d16;
+      font-weight: 900;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+      flex-shrink: 0;
+    }
+
+    .brand-title-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-title {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      color: #ffffff;
+    }
+
+    .brand-pill {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 2px 9px;
+      border-radius: 999px;
+      background: rgba(251, 191, 36, 0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(251, 191, 36, 0.35);
+    }
+
+    .brand-sub {
+      margin: 2px 0 0 0;
+      font-size: 12px;
+      color: #cbd5e1;
+    }
+
+    .header-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Timer Box */
+    .timer-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid #334155;
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+
+    .timer-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #94a3b8;
+      font-weight: 700;
+    }
+
+    .timer-digits {
+      font-family: var(--font-mono);
+      font-size: 17px;
+      font-weight: 800;
+      color: #34d399;
+      line-height: 1.2;
+    }
+
+    .timer-digits.warning {
+      color: #fbbf24;
+    }
+
+    .timer-digits.danger {
+      color: #f87171;
+    }
+
+    /* Profile Button */
+    .profile-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(30, 58, 138, 0.45);
+      border: 1px solid rgba(59, 130, 246, 0.45);
+      padding: 6px 14px;
+      border-radius: 12px;
+      color: #ffffff;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+
+    .profile-btn:hover {
+      background: rgba(30, 58, 138, 0.75);
+      border-color: #60a5fa;
+    }
+
+    .profile-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #2563eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 12px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .profile-name {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .profile-school {
+      font-size: 11px;
+      color: #93c5fd;
+      line-height: 1.2;
+      margin-top: 2px;
+    }
+
+    /* Nav Tabs */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 0 12px 0;
+      border-top: 1px solid rgba(148, 163, 184, 0.15);
+      overflow-x: auto;
+    }
+
+    .nav-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      background: rgba(30, 41, 59, 0.85);
+      color: #cbd5e1;
+    }
+
+    .nav-tab:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+
+    .nav-tab.active {
+      background: #2563eb;
+      color: #ffffff;
+      border-color: #60a5fa;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+
+    .nav-badge {
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      background: rgba(15, 23, 42, 0.65);
+      color: #e2e8f0;
+    }
+
+    .nav-badge.live {
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    /* ==================== BUTTONS ==================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 9px;
+      border: 1px solid transparent;
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 11.5px;
+      border-radius: 7px;
+    }
+
+    .btn-emerald {
+      background: #059669;
+      color: #ffffff;
+    }
+    .btn-emerald:hover {
+      background: #10b981;
+    }
+
+    .btn-slate {
+      background: #1e293b;
+      color: #e2e8f0;
+      border-color: #334155;
+    }
+    .btn-slate:hover {
+      background: #334155;
+      color: #ffffff;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+      padding: 9px 18px;
+      font-size: 13px;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #1e293b;
+      color: #f1f5f9;
+      border-color: #475569;
+      padding: 9px 15px;
+      font-size: 13px;
+    }
+    .btn-secondary:hover {
+      background: #334155;
+    }
+
+    /* ==================== WORKSPACE LAYOUT ==================== */
+    .main-area {
+      flex: 1;
+      padding: 20px 0 36px 0;
+    }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .problem-bar {
+      padding: 12px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .problem-pills {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .prob-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #cbd5e1;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .prob-pill:hover {
+      background: #1e293b;
+      color: #ffffff;
+    }
+
+    .prob-pill.active {
+      background: #1d4ed8;
+      border-color: #60a5fa;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.35);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #475569;
+    }
+    .status-dot.ac { background: #10b981; box-shadow: 0 0 8px #10b981; }
+    .status-dot.partial { background: #f59e0b; box-shadow: 0 0 8px #f59e0b; }
+
+    .prob-pill-score {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: rgba(15, 23, 42, 0.65);
+      color: #e2e8f0;
+    }
+
+    .exam-total-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #0f172a;
+      border: 1px solid #334155;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      color: #94a3b8;
+    }
+
+    .exam-total-val {
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 14px;
+      color: #60a5fa;
+    }
+
+    /* Spec Banner */
+    .spec-banner {
+      background: linear-gradient(90deg, #0f172a 0%, #172554 50%, #0f172a 100%);
+      border: 1px solid #1e3a8a;
+      border-radius: 16px;
+      padding: 12px 18px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .spec-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .spec-code {
+      background: #2563eb;
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-weight: 800;
+      font-size: 12px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .spec-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .spec-points {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(245, 158, 11, 0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .spec-note {
+      font-size: 12px;
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    .spec-files {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    .file-chip {
+      background: #090d16;
+      border: 1px solid #334155;
+      padding: 5px 10px;
+      border-radius: 8px;
+      color: #cbd5e1;
+    }
+
+    .file-chip strong.inp { color: #fbbf24; }
+    .file-chip strong.out { color: #34d399; }
+
+    /* Two-Column IDE Grid */
+    .ide-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+      .ide-grid {
+        grid-template-columns: 7fr 5fr;
+      }
+    }
+
+    .editor-card {
+      overflow: hidden;
+      border: 1px solid #334155;
+    }
+
+    .panel-header {
+      background: #161f33;
+      padding: 10px 16px;
+      border-bottom: 1px solid #293548;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .lang-select {
+      background: #090d16;
+      color: #f8fafc;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 12.5px;
+      font-weight: 600;
+      font-family: var(--font-sans);
+      outline: none;
+    }
+    .lang-select:focus {
+      border-color: #3b82f6;
+    }
+
+    .code-textarea {
+      width: 100%;
+      height: 460px;
+      padding: 16px;
+      background: var(--bg-editor);
+      color: #e2e8f0;
+      font-family: var(--font-mono);
+      font-size: 13.5px;
+      line-height: 1.55;
+      border: none;
+      outline: none;
+      resize: vertical;
+      tab-size: 4;
+      display: block;
+    }
+
+    .editor-footer {
+      background: #111827;
+      padding: 12px 16px;
+      border-top: 1px solid #1f2937;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .editor-hint {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .editor-hint code {
+      background: #1e293b;
+      color: #93c5fd;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+    }
+
+    .editor-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Right Column: Custom Test & Judge Console */
+    .right-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .custom-body {
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+
+    .custom-textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: var(--bg-editor);
+      color: #34d399;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      border: 1px solid #334155;
+      outline: none;
+      resize: vertical;
+    }
+    .custom-textarea:focus {
+      border-color: #3b82f6;
+    }
+
+    .custom-output-pre {
+      margin: 0;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: #090d16;
+      color: #f8fafc;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      border: 1px solid #334155;
+      max-height: 150px;
+      overflow: auto;
+      white-space: pre-wrap;
+    }
+
+    .custom-output-pre.error {
+      background: rgba(127, 29, 29, 0.35);
+      border-color: #ef4444;
+      color: #fca5a5;
+    }
+
+    /* Judge Console */
+    .judge-body {
+      padding: 14px 16px;
+      max-height: 410px;
+      overflow-y: auto;
+      font-size: 12.5px;
+    }
+
+    .judge-placeholder {
+      text-align: center;
+      color: #94a3b8;
+      padding: 24px 10px;
+    }
+
+    .verdict-badge {
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+    }
+
+    .verdict-wait { background: #334155; color: #e2e8f0; }
+    .verdict-ac { background: #10b981; color: #052e16; }
+    .verdict-partial { background: #f59e0b; color: #451a03; }
+    .verdict-wa { background: #ef4444; color: #ffffff; }
+
+    .tc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tc-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #0f172a;
+    }
+
+    .tc-item.ac {
+      border-color: rgba(16, 185, 129, 0.45);
+      background: rgba(6, 78, 59, 0.25);
+    }
+
+    .tc-item.tle {
+      border-color: rgba(245, 158, 11, 0.45);
+      background: rgba(120, 53, 15, 0.25);
+    }
+
+    .tc-item.wa {
+      border-color: rgba(239, 68, 68, 0.45);
+      background: rgba(127, 29, 29, 0.25);
+    }
+
+    .tc-tag {
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .tc-tag.ac { background: #059669; color: #fff; }
+    .tc-tag.tle { background: #d97706; color: #fff; }
+    .tc-tag.wa { background: #dc2626; color: #fff; }
+
+    .ce-box {
+      padding: 12px;
+      border-radius: 10px;
+      background: rgba(127, 29, 29, 0.35);
+      border: 1px solid #ef4444;
+      color: #fecaca;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+
+    /* ==================== LEADERBOARD & SUBMISSIONS TABLES ==================== */
+    .section-card {
+      padding: 20px;
+    }
+
+    .section-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #1f2937;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .section-sub {
+      margin: 4px 0 0 0;
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .filter-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      background: #090d16;
+      padding: 5px;
+      border-radius: 12px;
+      border: 1px solid #1f2937;
+    }
+
+    .lb-filter-btn {
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .lb-filter-btn:hover {
+      background: #1e293b;
+      color: #fff;
+    }
+
+    .lb-filter-btn.active {
+      background: #2563eb;
+      color: #ffffff;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      text-align: left;
+    }
+
+    table.data-table th {
+      background: #090d16;
+      color: #cbd5e1;
+      font-weight: 700;
+      padding: 11px 12px;
+      border-bottom: 1px solid #334155;
+      white-space: nowrap;
+    }
+
+    table.data-table td {
+      padding: 11px 12px;
+      border-bottom: 1px solid #1f2937;
+      color: #e2e8f0;
+    }
+
+    table.data-table tr:hover td {
+      background: rgba(30, 41, 59, 0.55);
+    }
+
+    table.data-table tr.row-me td {
+      background: rgba(30, 58, 138, 0.35);
+    }
+
+    .text-center { text-align: center; }
+    .text-right { text-align: right; }
+
+    /* ==================== MODAL POPUP ==================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.8);
+      backdrop-filter: blur(4px);
+      z-index: 60;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-box {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 18px;
+      max-width: 440px;
+      width: 100%;
+      overflow: hidden;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.65);
+    }
+
+    .modal-head {
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      padding: 16px 20px;
+      border-bottom: 1px solid #1e3a8a;
+    }
+
+    .modal-head h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .modal-head p {
+      margin: 3px 0 0 0;
+      font-size: 12px;
+      color: #bfdbfe;
+    }
+
+    .modal-form {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .text-input {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 10px;
+      background: #090d16;
+      border: 1px solid #334155;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-family: var(--font-sans);
+      outline: none;
+    }
+    .text-input:focus {
+      border-color: #3b82f6;
+    }
+
+    .modal-info {
+      background: rgba(30, 58, 138, 0.3);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: #bfdbfe;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    /* ==================== TOAST NOTIFICATIONS ==================== */
+    .toast-stack {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      z-index: 70;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 360px;
+    }
+
+    .toast-item {
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: #1e293b;
+      border-left: 4px solid #3b82f6;
+      color: #f8fafc;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+      transition: opacity 0.25s ease;
+    }
+    .toast-item.success { border-left-color: #10b981; }
+    .toast-item.warning { border-left-color: #f59e0b; }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== TOP HEADER ==================== -->
+  <header class="app-header">
+    <div class="container-main">
+      <div class="header-top">
+        <!-- Brand -->
+        <div class="brand-group">
+          <div class="brand-logo">DTD</div>
+          <div>
+            <div class="brand-title-row">
+              <span class="brand-title">CODE CHAMPION TOUR DTD</span>
+              <span class="brand-pill">Online Judge</span>
+            </div>
+            <p class="brand-sub">Hệ thống Nộp &amp; Chấm Bài Trực Tuyến — HSG Cấp Tỉnh Tin Học Lớp 9 Hưng Yên (2026–2027)</p>
+          </div>
+        </div>
+
+        <!-- Timer & Profile -->
+        <div class="header-controls">
+          <div class="timer-card">
+            <div style="text-align: right;">
+              <div class="timer-label" id="timer-label">Thời gian Đề 01</div>
+              <div id="timer-display" class="timer-digits">01:30:00</div>
+            </div>
+            <div style="display: flex; gap: 6px; margin-left: 4px;">
+              <button id="btn-timer-toggle" onclick="toggleTimer()" class="btn btn-sm btn-emerald">Bắt đầu</button>
+              <button onclick="resetTimer()" title="Đặt lại 90 phút" class="btn btn-sm btn-slate">↺</button>
+            </div>
+          </div>
+
+          <button onclick="openProfileModal()" class="profile-btn">
+            <div class="profile-avatar" id="user-avatar">TS</div>
+            <div>
+              <div id="header-user-name" class="profile-name">Chưa nhập tên thí sinh</div>
+              <div id="header-user-school" class="profile-school">Bấm để đăng ký dự thi</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="nav-bar">
+        <button onclick="switchMainTab('exam1')" id="tab-exam1" class="nav-tab active">
+          <span>Đề số 01</span>
+          <span id="badge-score-exam1" class="nav-badge">0.0/20</span>
+        </button>
+        <button onclick="switchMainTab('exam2')" id="tab-exam2" class="nav-tab">
+          <span>Đề số 02</span>
+          <span id="badge-score-exam2" class="nav-badge">0.0/20</span>
+        </button>
+        <button onclick="switchMainTab('leaderboard')" id="tab-leaderboard" class="nav-tab">
+          <span>🏆 Bảng xếp hạng trực tuyến</span>
+          <span id="badge-online-count" class="nav-badge live">Live</span>
+        </button>
+        <button onclick="switchMainTab('submissions')" id="tab-submissions" class="nav-tab">
+          <span>📋 Lịch sử nộp bài chung</span>
+          <span id="badge-sub-count" class="nav-badge">0</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN WORKSPACE ==================== -->
+  <main class="main-area">
+    <div class="container-main">
+
+      <!-- VIEW 1 & 2: IDE & AUTO-JUDGE -->
+      <section id="view-workspace">
+        <!-- Problem Selector Bar -->
+        <div class="card problem-bar">
+          <div class="problem-pills" id="problem-pills"></div>
+          <div class="exam-total-box">
+            <span>Điểm đề hiện tại:</span>
+            <span id="current-exam-total" class="exam-total-val">0.00 / 20.00</span>
+          </div>
+        </div>
+
+        <!-- Compact File Spec Banner (Paper Exam Mode) -->
+        <div class="spec-banner">
+          <div class="spec-left">
+            <span id="prob-code-badge" class="spec-code">MATONG</span>
+            <h2 id="prob-title" class="spec-title">BÀI 1. ĐÓNG GÓI MẬT ONG</h2>
+            <span id="prob-points-badge" class="spec-points">5,0 điểm</span>
+            <span class="spec-note">(Xem đề bài chi tiết trên phiếu đề giấy)</span>
+          </div>
+          <div class="spec-files">
+            <span class="file-chip">Tệp vào: <strong id="prob-inp-name" class="inp">MATONG.INP</strong></span>
+            <span class="file-chip">Tệp ra: <strong id="prob-out-name" class="out">MATONG.OUT</strong></span>
+            <span class="file-chip">1.0s | 256MB</span>
+          </div>
+        </div>
+
+        <!-- 2-Column IDE Grid -->
+        <div class="ide-grid">
+          <!-- Left: Code Editor -->
+          <div class="card editor-card">
+            <div class="panel-header">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="lang-select" style="font-size: 12px; font-weight: 700; color: #94a3b8;">Ngôn ngữ:</label>
+                <select id="lang-select" onchange="onLanguageChange()" class="lang-select">
+                  <option value="cpp">C++ (GCC 17 — Hỗ trợ Macro &amp; BigInt)</option>
+                  <option value="python">Python 3 (PyPy / CPython)</option>
+                  <option value="javascript">JavaScript (Node.js)</option>
+                </select>
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button onclick="resetCodeTemplate()" class="btn btn-sm btn-slate">Khôi phục mẫu</button>
+                <button onclick="copyCurrentCode()" class="btn btn-sm btn-slate">Sao chép</button>
+              </div>
+            </div>
+
+            <textarea id="code-editor" spellcheck="false" placeholder="Nhập hoặc dán mã nguồn của bạn tại đây..." class="code-textarea"></textarea>
+
+            <div class="editor-footer">
+              <div class="editor-hint">
+                Hỗ trợ đầy đủ <code>freopen(...)</code>, <code>cin/cout</code>, <code>#define</code> tùy chỉnh
+              </div>
+              <div class="editor-actions">
+                <button id="btn-run-custom" onclick="runCustomTest()" class="btn btn-secondary">▶ Chạy thử Input tự nhập</button>
+                <button id="btn-submit-code" onclick="runJudge()" class="btn btn-primary">🚀 Nộp bài (Submit &amp; Judge)</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Custom Test & Official Judge Results -->
+          <div class="right-stack">
+            <!-- Custom Input Card -->
+            <div class="card" style="overflow: hidden;">
+              <div class="panel-header">
+                <span style="font-size: 12px; font-weight: 800; letter-spacing: 0.4px; color: #e2e8f0;">🧪 CHẠY THỬ DỮ LIỆU TỰ NHẬP (CUSTOM TEST)</span>
+                <button onclick="loadSampleIntoCustom()" class="btn btn-sm btn-slate" style="color: #fcd34d;">Nạp test mẫu</button>
+              </div>
+              <div class="custom-body">
+                <div>
+                  <label for="custom-input-box" class="field-label">Dữ liệu vào (<span id="custom-inp-label">MATONG.INP</span>):</label>
+                  <textarea id="custom-input-box" rows="4" spellcheck="false" placeholder="Nhập dữ liệu đầu vào để kiểm tra nhanh..." class="custom-textarea"></textarea>
+                </div>
+                <div id="custom-output-wrapper" class="hidden">
+                  <div style="display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: #cbd5e1; margin-bottom: 6px;">
+                    <span>Kết quả xuất ra (<span id="custom-out-label">MATONG.OUT</span>):</span>
+                    <span id="custom-exec-time" class="font-mono-code" style="color: #60a5fa;">0ms</span>
+                  </div>
+                  <pre id="custom-output-box" class="custom-output-pre"></pre>
+                </div>
+              </div>
+            </div>
+
+            <!-- Judge Console Card -->
+            <div class="card" style="overflow: hidden;">
+              <div class="panel-header" style="background: #0f172a;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span style="font-size: 13px; font-weight: 800; color: #ffffff;" id="judge-mode-title">Kết quả chấm test ẩn</span>
+                  <span id="judge-overall-badge" class="verdict-badge verdict-wait">Chờ nộp</span>
+                </div>
+                <div class="font-mono-code" style="font-weight: 800; font-size: 13px; color: #fcd34d;" id="judge-score-summary">
+                  0.00 / 5.00 điểm
+                </div>
+              </div>
+              <div id="judge-console-body" class="judge-body">
+                <div class="judge-placeholder">
+                  Bấm <strong>Nộp bài (Submit &amp; Judge)</strong> để hệ thống chấm tự động toàn bộ các test case theo từng Subtask và cập nhật điểm lên Bảng xếp hạng.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 3: LEADERBOARD -->
+      <section id="view-leaderboard" class="hidden">
+        <div class="card section-card">
+          <div class="section-header">
+            <div>
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+                <h2 class="section-title">BẢNG XẾP HẠNG TRỰC TUYẾN — CODE CHAMPION TOUR DTD</h2>
+                <span class="nav-badge live">● Thời gian thực</span>
+              </div>
+              <p class="section-sub">Tự động cập nhật ngay khi thí sinh nộp bài. Chọn bộ lọc để xem điểm Đề 01, Đề 02 hoặc Tổng hợp cả 2 đề.</p>
+            </div>
+
+            <div class="filter-group">
+              <button onclick="setLeaderboardFilter('all')" id="lb-filter-all" class="lb-filter-btn active">Tổng hợp 2 Đề (40đ)</button>
+              <button onclick="setLeaderboardFilter('exam1')" id="lb-filter-exam1" class="lb-filter-btn">Đề số 01 (20đ)</button>
+              <button onclick="setLeaderboardFilter('exam2')" id="lb-filter-exam2" class="lb-filter-btn">Đề số 02 (20đ)</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr id="leaderboard-thead"></tr>
+              </thead>
+              <tbody id="leaderboard-tbody">
+                <tr>
+                  <td colspan="10" class="text-center" style="padding: 32px; color: #94a3b8;">Đang tải bảng xếp hạng...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 4: GLOBAL SUBMISSIONS -->
+      <section id="view-submissions" class="hidden">
+        <div class="card section-card">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title">LỊCH SỬ NỘP BÀI CHUNG (LIVE FEED)</h2>
+              <p class="section-sub">Theo dõi trực tiếp các lượt nộp bài và kết quả chấm của toàn bộ thí sinh.</p>
+            </div>
+            <span class="file-chip">Hiển thị 50 lượt nộp gần nhất</span>
+          </div>
+
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Thời gian</th>
+                  <th>Thí sinh</th>
+                  <th>Trường / Lớp</th>
+                  <th>Đề &amp; Bài toán</th>
+                  <th>Ngôn ngữ</th>
+                  <th class="text-center">Trạng thái</th>
+                  <th class="text-right">Điểm số</th>
+                </tr>
+              </thead>
+              <tbody id="submissions-tbody">
+                <tr>
+                  <td colspan="7" class="text-center" style="padding: 32px; color: #94a3b8;">Chưa có lượt nộp bài nào.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==================== CONTESTANT PROFILE MODAL ==================== -->
+  <div id="profile-modal" class="modal-backdrop hidden">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>THÔNG TIN THÍ SINH DỰ THI</h3>
+        <p>Code Champion Tour DTD — HSG Tin học 9 Hưng Yên</p>
+      </div>
+      <form onsubmit="saveContestantProfile(event)" class="modal-form">
+        <div>
+          <label class="field-label" for="input-fullname">Họ và tên thí sinh <span style="color: #f87171;">*</span></label>
+          <input id="input-fullname" type="text" required maxlength="50" placeholder="Ví dụ: Nguyễn Minh Quân" class="text-input" />
+        </div>
+        <div>
+          <label class="field-label" for="input-school">Trường THCS / Lớp <span style="color: #f87171;">*</span></label>
+          <input id="input-school" type="text" required maxlength="60" placeholder="Ví dụ: THCS Lê Quý Đôn - 9A1" class="text-input" />
+        </div>
+        <div class="modal-info">
+          Điểm số của bạn sẽ được lưu và hiển thị công khai trên <strong>Bảng xếp hạng trực tuyến</strong> ngay sau mỗi lần nộp bài.
+        </div>
+        <div class="modal-actions">
+          <button type="button" onclick="closeProfileModal()" class="btn btn-slate">Đóng</button>
+          <button type="submit" class="btn btn-primary">Xác nhận vào thi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST CONTAINER ==================== -->
+  <div id="toast-container" class="toast-stack"></div>
+
+  <!-- ==================== FIREBASE REAL-TIME SYNC MODULE ==================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, addDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'code-champion-dtd-hy-2026';
+    let firebaseConfig = null;
+    try {
+      if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+        firebaseConfig = JSON.parse(__firebase_config);
+      }
+    } catch (e) {
+      console.warn("Firebase config parse error:", e);
+    }
+
+    let db = null;
+    let auth = null;
+    let currentUser = null;
+
+    let leaderboardData = [];
+    let submissionsData = [];
+    let myBestScores = {
+      exam1: { b1: 0, b2: 0, b3: 0, b4: 0, b5: 0 },
+      exam2: { b1: 0, b2: 0, b3: 0, b4: 0, b5: 0 }
+    };
+
+    // Load local backup if offline
+    try {
+      const savedLocal = localStorage.getItem('dtd_judge_local_state_v1');
+      if (savedLocal) {
+        const parsed = JSON.parse(savedLocal);
+        if (parsed.myBestScores) myBestScores = parsed.myBestScores;
+        if (parsed.leaderboardData) leaderboardData = parsed.leaderboardData;
+        if (parsed.submissionsData) submissionsData = parsed.submissionsData;
+      }
+    } catch (e) {}
+
+    function persistLocalFallback() {
+      try {
+        localStorage.setItem('dtd_judge_local_state_v1', JSON.stringify({
+          myBestScores,
+          leaderboardData,
+          submissionsData
+        }));
+      } catch (e) {}
+    }
+
+    async function initFirebase() {
+      if (!firebaseConfig) {
+        renderLeaderboard();
+        renderSubmissions();
+        return;
+      }
+      try {
+        const app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+
+        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+
+        onAuthStateChanged(auth, (user) => {
+          currentUser = user;
+          if (user && db) {
+            subscribeToPublicData();
+          }
+        });
+      } catch (err) {
+        console.error("Firebase init error:", err);
+        renderLeaderboard();
+        renderSubmissions();
+      }
+    }
+
+    function subscribeToPublicData() {
+      if (!db || !currentUser) return;
+
+      const lbCol = collection(db, 'artifacts', appId, 'public', 'data', 'leaderboard');
+      onSnapshot(lbCol, (snapshot) => {
+        const list = [];
+        snapshot.forEach((docSnap) => {
+          list.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        leaderboardData = list;
+
+        const me = leaderboardData.find(item => item.id === currentUser.uid);
+        if (me) {
+          if (me.name && !contestantProfile.name) {
+            contestantProfile.name = me.name;
+            contestantProfile.school = me.school || "";
+            updateProfileHeaderUI();
+          }
+          if (me.exam1) myBestScores.exam1 = { ...myBestScores.exam1, ...me.exam1 };
+          if (me.exam2) myBestScores.exam2 = { ...myBestScores.exam2, ...me.exam2 };
+          updateTopScoreBadges();
+          renderProblemPills();
+        }
+        persistLocalFallback();
+        renderLeaderboard();
+      }, (error) => {
+        console.error("Leaderboard listener error:", error);
+      });
+
+      const subCol = collection(db, 'artifacts', appId, 'public', 'data', 'submissions');
+      onSnapshot(subCol, (snapshot) => {
+        const list = [];
+        snapshot.forEach((docSnap) => {
+          list.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        list.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+        submissionsData = list.slice(0, 50);
+        document.getElementById('badge-sub-count').textContent = list.length;
+        persistLocalFallback();
+        renderSubmissions();
+      }, (error) => {
+        console.error("Submissions listener error:", error);
+      });
+    }
+
+    window.syncScoreToCloud = async function(examKey, probKey, earnedScore, status, lang, execTimeMs) {
+      // Always update local state first so UI updates instantaneously
+      if (earnedScore > (myBestScores[examKey][probKey] || 0)) {
+        myBestScores[examKey][probKey] = earnedScore;
+      }
+      updateTopScoreBadges();
+      renderProblemPills();
+
+      const e1 = myBestScores.exam1;
+      const e2 = myBestScores.exam2;
+      const total1 = +(e1.b1 + e1.b2 + e1.b3 + e1.b4 + e1.b5).toFixed(2);
+      const total2 = +(e2.b1 + e2.b2 + e2.b3 + e2.b4 + e2.b5).toFixed(2);
+      const totalAll = +(total1 + total2).toFixed(2);
+
+      let acCount = 0;
+      const maxMap = { b1: 5, b2: 5, b3: 4, b4: 3, b5: 3 };
+      for (const k of ['b1', 'b2', 'b3', 'b4', 'b5']) {
+        if ((e1[k] || 0) >= maxMap[k]) acCount++;
+        if ((e2[k] || 0) >= maxMap[k]) acCount++;
+      }
+
+      const uid = currentUser ? currentUser.uid : 'local-candidate';
+      const now = Date.now();
+      const probObj = PROBLEMS[examKey].find(p => p.key === probKey);
+
+      const entryRecord = {
+        id: uid,
+        uid,
+        name: contestantProfile.name || `Thí sinh #${uid.slice(0, 5)}`,
+        school: contestantProfile.school || "THCS Hưng Yên",
+        exam1: { ...e1 },
+        exam2: { ...e2 },
+        total1,
+        total2,
+        totalAll,
+        acCount,
+        lastSubmit: now
+      };
+
+      const subRecord = {
+        uid,
+        name: entryRecord.name,
+        school: entryRecord.school,
+        examName: examKey === 'exam1' ? 'Đề 01' : 'Đề 02',
+        probCode: probObj.code,
+        probTitle: probObj.shortTitle,
+        lang: lang.toUpperCase(),
+        status,
+        score: earnedScore,
+        maxScore: probObj.maxPoints,
+        execTimeMs,
+        timestamp: now
+      };
+
+      // Update local fallback arrays
+      const existingIdx = leaderboardData.findIndex(x => x.uid === uid);
+      if (existingIdx >= 0) leaderboardData[existingIdx] = entryRecord;
+      else leaderboardData.push(entryRecord);
+      submissionsData.unshift(subRecord);
+      if (submissionsData.length > 50) submissionsData.pop();
+      document.getElementById('badge-sub-count').textContent = submissionsData.length;
+      persistLocalFallback();
+      renderLeaderboard();
+      renderSubmissions();
+
+      if (!db || !currentUser) return;
+      try {
+        const userDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'leaderboard', currentUser.uid);
+        await setDoc(userDocRef, entryRecord, { merge: true });
+
+        const subCol = collection(db, 'artifacts', appId, 'public', 'data', 'submissions');
+        await addDoc(subCol, subRecord);
+      } catch (err) {
+        console.error("Failed to sync submission:", err);
+      }
+    };
+
+    window.getMyBestScores = () => myBestScores;
+    window.getLeaderboardData = () => leaderboardData;
+    window.getSubmissionsData = () => submissionsData;
+    window.getCurrentUserId = () => currentUser ? currentUser.uid : 'local-candidate';
+
+    initFirebase();
+  </script>
+
+  <!-- ==================== CONTEST PROBLEMS, C++ COMPILER & UI LOGIC ==================== -->
+  <script>
+    // ==================== 1. FULL CONTEST DATASET (10 PROBLEMS) ====================
+    const PROBLEMS = {
+      exam1: [
+        {
+          key: 'b1',
+          num: 1,
+          code: 'MATONG',
+          shortTitle: 'Đóng gói mật ong',
+          title: 'BÀI 1. ĐÓNG GÓI MẬT ONG',
+          maxPoints: 5.0,
+          inpFile: 'MATONG.INP',
+          outFile: 'MATONG.OUT',
+          sampleInput: "15 4",
+          tests: [
+            { subtask: 1, points: 1.5, input: "15 4", expected: "4" },
+            { subtask: 1, points: 1.5, input: "20 5", expected: "4" },
+            { subtask: 2, points: 1.0, input: "1 1000000000000000000", expected: "1" },
+            { subtask: 2, points: 1.0, input: "999999999999999999 2", expected: "500000000000000000" }
+          ]
+        },
+        {
+          key: 'b2',
+          num: 2,
+          code: 'VUONNHAN',
+          shortTitle: 'Số đặc biệt Vườn Nhãn',
+          title: 'BÀI 2. SỐ ĐẶC BIỆT VƯỜN NHÃN',
+          maxPoints: 5.0,
+          inpFile: 'VUONNHAN.INP',
+          outFile: 'VUONNHAN.OUT',
+          sampleInput: "10 20",
+          tests: [
+            { subtask: 1, points: 1.5, input: "10 20", expected: "4" },
+            { subtask: 1, points: 1.5, input: "22 23", expected: "0" },
+            { subtask: 2, points: 1.0, input: "1 100", expected: "33" },
+            { subtask: 2, points: 1.0, input: "1 100000", expected: "14753" }
+          ]
+        },
+        {
+          key: 'b3',
+          num: 3,
+          code: 'BIAXICHDANG',
+          shortTitle: 'Mật mã Bia Xích Đằng',
+          title: 'BÀI 3. MẬT MÃ BIA XÍCH ĐẰNG',
+          maxPoints: 4.0,
+          inpFile: 'BIAXICHDANG.INP',
+          outFile: 'BIAXICHDANG.OUT',
+          sampleInput: "xichdang1702phohien008",
+          tests: [
+            { subtask: 1, points: 1.0, input: "xichdang1702phohien008", expected: "1710" },
+            { subtask: 1, points: 1.0, input: "hungyen2026a000b15", expected: "2041" },
+            { subtask: 2, points: 1.0, input: "abcdefxyz", expected: "0" },
+            { subtask: 2, points: 1.0, input: "a0000b000c", expected: "0" }
+          ]
+        },
+        {
+          key: 'b4',
+          num: 4,
+          code: 'PHOLAO',
+          shortTitle: 'Đoạn đường Phố Láo',
+          title: 'BÀI 4. ĐOẠN ĐƯỜNG PHỐ LÁO',
+          maxPoints: 3.0,
+          inpFile: 'PHOLAO.INP',
+          outFile: 'PHOLAO.OUT',
+          sampleInput: "6 10\n2 3 1 2 4 3",
+          tests: [
+            { subtask: 1, points: 1.0, input: "6 10\n2 3 1 2 4 3", expected: "3" },
+            { subtask: 1, points: 1.0, input: "5 20\n1 2 3 4 5", expected: "0" },
+            { subtask: 2, points: 1.0, input: "5 8\n8 1 1 1 1", expected: "1" }
+          ]
+        },
+        {
+          key: 'b5',
+          num: 5,
+          code: 'PHUONGNAM',
+          shortTitle: 'Số nguyên tố đối xứng Phương Nam',
+          title: 'BÀI 5. SỐ NGUYÊN TỐ ĐỐI XỨNG PHƯƠNG NAM',
+          maxPoints: 3.0,
+          inpFile: 'PHUONGNAM.INP',
+          outFile: 'PHUONGNAM.OUT',
+          sampleInput: "1 150",
+          tests: [
+            { subtask: 1, points: 1.0, input: "1 150", expected: "7" },
+            { subtask: 2, points: 1.0, input: "14 100", expected: "0" },
+            { subtask: 2, points: 1.0, input: "1 100000", expected: "43" }
+          ]
+        }
+      ],
+      exam2: [
+        {
+          key: 'b1',
+          num: 1,
+          code: 'HOBANNGUYET',
+          shortTitle: 'Đường chạy quanh Hồ Bán Nguyệt',
+          title: 'BÀI 1. ĐƯỜNG CHẠY QUANH HỒ BÁN NGUYỆT',
+          maxPoints: 5.0,
+          inpFile: 'HOBANNGUYET.INP',
+          outFile: 'HOBANNGUYET.OUT',
+          sampleInput: "300 200 5",
+          tests: [
+            { subtask: 1, points: 1.5, input: "300 200 4", expected: "4000" },
+            { subtask: 1, points: 1.5, input: "300 200 5", expected: "5200" },
+            { subtask: 2, points: 1.0, input: "100 149 10", expected: "4980" },
+            { subtask: 2, points: 1.0, input: "100000000 100000000 10", expected: "4000000200" }
+          ]
+        },
+        {
+          key: 'b2',
+          num: 2,
+          code: 'VAILAI',
+          shortTitle: 'Thu hoạch vải lai Phù Cừ',
+          title: 'BÀI 2. THU HOẠCH VẢI LAI PHÙ CỪ',
+          maxPoints: 5.0,
+          inpFile: 'VAILAI.INP',
+          outFile: 'VAILAI.OUT',
+          sampleInput: "3 100\n40 25\n50 18\n30 20",
+          tests: [
+            { subtask: 1, points: 1.5, input: "3 100\n40 25\n50 18\n30 20", expected: "2000" },
+            { subtask: 1, points: 1.5, input: "2 50\n20 10\n25 12", expected: "-1" },
+            { subtask: 2, points: 1.0, input: "3 60\n20 30\n20 10\n20 20", expected: "1200" },
+            { subtask: 2, points: 1.0, input: "1 1000000\n1000000 500000", expected: "500000000000" }
+          ]
+        },
+        {
+          key: 'b3',
+          num: 3,
+          code: 'CHUADAU',
+          shortTitle: 'Chuẩn hóa danh sách Chùa Đậu',
+          title: 'BÀI 3. CHUẨN HÓA DANH SÁCH CHÙA ĐẬU',
+          maxPoints: 4.0,
+          inpFile: 'CHUADAU.INP',
+          outFile: 'CHUADAU.OUT',
+          sampleInput: "   tOng   tRan   pHu  cU  ",
+          tests: [
+            { subtask: 1, points: 1.0, input: "   tOng   tRan   pHu  cU  ", expected: "4\nTong Tran Phu Cu" },
+            { subtask: 1, points: 1.0, input: "HUNG   yen", expected: "2\nHung Yen" },
+            { subtask: 2, points: 1.0, input: "a", expected: "1\nA" },
+            { subtask: 2, points: 1.0, input: "   nGuYeN   tRuNg   nGaN   ", expected: "3\nNguyen Trung Ngan" }
+          ]
+        },
+        {
+          key: 'b4',
+          num: 4,
+          code: 'GHEPDOI',
+          shortTitle: 'Ghép đôi tương đồng',
+          title: 'BÀI 4. GHÉP ĐÔI TƯƠNG ĐỒNG',
+          maxPoints: 3.0,
+          inpFile: 'GHEPDOI.INP',
+          outFile: 'GHEPDOI.OUT',
+          sampleInput: "4 3 5\n60 45 80 60\n30 60 75",
+          tests: [
+            { subtask: 1, points: 1.0, input: "4 3 5\n60 45 80 60\n30 60 75", expected: "2" },
+            { subtask: 1, points: 1.0, input: "2 2 1\n10 20\n15 25", expected: "0" },
+            { subtask: 2, points: 1.0, input: "3 3 0\n5 10 15\n15 5 10", expected: "3" }
+          ]
+        },
+        {
+          key: 'b5',
+          num: 5,
+          code: 'GOMSU',
+          shortTitle: 'Mã số tương đương gốm Chu Đậu',
+          title: 'BÀI 5. MÃ SỐ TƯƠNG ĐƯƠNG GỐM CHU ĐẬU',
+          maxPoints: 3.0,
+          inpFile: 'GOMSU.INP',
+          outFile: 'GOMSU.OUT',
+          sampleInput: "6 1 20",
+          tests: [
+            { subtask: 1, points: 1.0, input: "6 1 20", expected: "2" },
+            { subtask: 1, points: 1.0, input: "10 1 15", expected: "1" },
+            { subtask: 2, points: 1.0, input: "14 1 30", expected: "3" }
+          ]
+        }
+      ]
+    };
+
+    // ==================== 2. APPLICATION STATE & STORAGE ====================
+    let currentExam = 'exam1';
+    let currentProbKey = 'b1';
+    let currentLang = 'cpp';
+    let lbFilter = 'all';
+
+    let contestantProfile = { name: '', school: '' };
+    try {
+      const savedProf = localStorage.getItem('dtd_judge_profile_v1');
+      if (savedProf) contestantProfile = JSON.parse(savedProf);
+    } catch (e) {}
+
+    const codeDrafts = {};
+    const timers = {
+      exam1: { remaining: 90 * 60, running: false },
+      exam2: { remaining: 90 * 60, running: false }
+    };
+    let timerInterval = null;
+
+    // ==================== 3. TEMPLATES & DRAFT HELPERS ====================
+    function getTemplate(examKey, probKey, lang) {
+      const prob = PROBLEMS[examKey].find(p => p.key === probKey);
+      if (lang === 'cpp') {
+        return `#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    freopen("${prob.inpFile}", "r", stdin);
+    freopen("${prob.outFile}", "w", stdout);
+
+    // Viết lời giải của bạn tại đây
+    
+
+    return 0;
+}`;
+      } else if (lang === 'python') {
+        return `import sys
+
+# Đọc dữ liệu chuẩn (tự động ánh xạ từ ${prob.inpFile})
+data = sys.stdin.read().split()
+if data:
+    # Viết lời giải của bạn tại đây
+    print(data[0])
+`;
+      } else {
+        return `const fs = require('fs');
+const input = fs.readFileSync(0, 'utf-8').trim().split(/\\s+/);
+// Viết lời giải của bạn tại đây
+console.log(input[0] || '');
+`;
+      }
+    }
+
+    function draftKey(examKey, probKey, lang) {
+      return `${examKey}_${probKey}_${lang}`;
+    }
+
+    function saveCurrentDraft() {
+      const editor = document.getElementById('code-editor');
+      if (!editor) return;
+      codeDrafts[draftKey(currentExam, currentProbKey, currentLang)] = editor.value;
+    }
+
+    function onLanguageChange() {
+      saveCurrentDraft();
+      currentLang = document.getElementById('lang-select').value;
+      const k = draftKey(currentExam, currentProbKey, currentLang);
+      document.getElementById('code-editor').value =
+        codeDrafts[k] !== undefined ? codeDrafts[k] : getTemplate(currentExam, currentProbKey, currentLang);
+    }
+
+    function resetCodeTemplate() {
+      const tpl = getTemplate(currentExam, currentProbKey, currentLang);
+      document.getElementById('code-editor').value = tpl;
+      codeDrafts[draftKey(currentExam, currentProbKey, currentLang)] = tpl;
+      showToast('Đã khôi phục mã nguồn mẫu ban đầu.', 'info');
+    }
+
+    function copyCurrentCode() {
+      const editor = document.getElementById('code-editor');
+      editor.select();
+      try {
+        document.execCommand('copy');
+        showToast('Đã sao chép mã nguồn vào bộ nhớ tạm!', 'success');
+      } catch (e) {
+        showToast('Không thể sao chép tự động, vui lòng nhấn Ctrl+C.', 'warning');
+      }
+    }
+
+    // ==================== 4. TIMER & PROFILE MODAL ====================
+    function updateTimerUI() {
+      const st = timers[currentExam];
+      const mins = Math.floor(st.remaining / 60);
+      const secs = st.remaining % 60;
+      const hrs = Math.floor(mins / 60);
+      const remMins = mins % 60;
+      const formatted = `${String(hrs).padStart(2, '0')}:${String(remMins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+      const disp = document.getElementById('timer-display');
+      disp.textContent = formatted;
+      disp.className = 'timer-digits';
+      if (st.remaining <= 300) disp.classList.add('danger');
+      else if (st.remaining <= 900) disp.classList.add('warning');
+
+      const btn = document.getElementById('btn-timer-toggle');
+      btn.textContent = st.running ? 'Tạm dừng' : 'Bắt đầu';
+    }
+
+    function toggleTimer() {
+      const st = timers[currentExam];
+      st.running = !st.running;
+      if (st.running && !timerInterval) {
+        timerInterval = setInterval(() => {
+          const activeSt = timers[currentExam];
+          if (activeSt.running && activeSt.remaining > 0) {
+            activeSt.remaining--;
+            updateTimerUI();
+            if (activeSt.remaining === 0) {
+              activeSt.running = false;
+              updateTimerUI();
+              showToast('Đã hết thời gian 90 phút làm bài!', 'warning');
+            }
+          }
+        }, 1000);
+      }
+      updateTimerUI();
+    }
+
+    function resetTimer() {
+      timers[currentExam].running = false;
+      timers[currentExam].remaining = 90 * 60;
+      updateTimerUI();
+      showToast('Đã đặt lại đồng hồ về 01:30:00.', 'info');
+    }
+
+    function openProfileModal() {
+      document.getElementById('input-fullname').value = contestantProfile.name || '';
+      document.getElementById('input-school').value = contestantProfile.school || '';
+      document.getElementById('profile-modal').classList.remove('hidden');
+    }
+
+    function closeProfileModal() {
+      document.getElementById('profile-modal').classList.add('hidden');
+    }
+
+    function updateProfileHeaderUI() {
+      const nameEl = document.getElementById('header-user-name');
+      const schoolEl = document.getElementById('header-user-school');
+      const avatarEl = document.getElementById('user-avatar');
+      if (contestantProfile.name) {
+        nameEl.textContent = contestantProfile.name;
+        schoolEl.textContent = contestantProfile.school || 'THCS Hưng Yên';
+        const parts = contestantProfile.name.trim().split(/\s+/);
+        avatarEl.textContent = parts.length >= 2
+          ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
+          : contestantProfile.name.slice(0, 2).toUpperCase();
+      }
+    }
+
+    function saveContestantProfile(e) {
+      e.preventDefault();
+      contestantProfile.name = document.getElementById('input-fullname').value.trim();
+      contestantProfile.school = document.getElementById('input-school').value.trim();
+      try {
+        localStorage.setItem('dtd_judge_profile_v1', JSON.stringify(contestantProfile));
+      } catch (err) {}
+      updateProfileHeaderUI();
+      closeProfileModal();
+      showToast(`Chào mừng thí sinh ${contestantProfile.name}!`, 'success');
+    }
+
+    function updateTopScoreBadges() {
+      const best = window.getMyBestScores ? window.getMyBestScores() : { exam1: {}, exam2: {} };
+      const sum1 = ['b1', 'b2', 'b3', 'b4', 'b5'].reduce((acc, k) => acc + (best.exam1[k] || 0), 0);
+      const sum2 = ['b1', 'b2', 'b3', 'b4', 'b5'].reduce((acc, k) => acc + (best.exam2[k] || 0), 0);
+
+      document.getElementById('badge-score-exam1').textContent = `${sum1.toFixed(1)}/20`;
+      document.getElementById('badge-score-exam2').textContent = `${sum2.toFixed(1)}/20`;
+
+      const curTotal = currentExam === 'exam1' ? sum1 : sum2;
+      document.getElementById('current-exam-total').textContent = `${curTotal.toFixed(2)} / 20.00`;
+    }
+
+    // ==================== 5. UI NAVIGATION & PROBLEM PILLS ====================
+    function switchMainTab(tabName) {
+      document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById(`tab-${tabName}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const ws = document.getElementById('view-workspace');
+      const lb = document.getElementById('view-leaderboard');
+      const sb = document.getElementById('view-submissions');
+
+      ws.classList.add('hidden');
+      lb.classList.add('hidden');
+      sb.classList.add('hidden');
+
+      if (tabName === 'exam1' || tabName === 'exam2') {
+        saveCurrentDraft();
+        currentExam = tabName;
+        ws.classList.remove('hidden');
+        document.getElementById('timer-label').textContent = tabName === 'exam1' ? 'Thời gian Đề 01' : 'Thời gian Đề 02';
+        updateTimerUI();
+        renderProblemPills();
+        loadProblem(currentProbKey);
+      } else if (tabName === 'leaderboard') {
+        lb.classList.remove('hidden');
+        renderLeaderboard();
+      } else if (tabName === 'submissions') {
+        sb.classList.remove('hidden');
+        renderSubmissions();
+      }
+    }
+
+    function renderProblemPills() {
+      const container = document.getElementById('problem-pills');
+      const probs = PROBLEMS[currentExam];
+      const best = window.getMyBestScores ? window.getMyBestScores()[currentExam] : {};
+
+      container.innerHTML = probs.map(p => {
+        const isSelected = p.key === currentProbKey;
+        const sc = best[p.key] || 0;
+        const isFull = sc >= p.maxPoints;
+        const isPartial = sc > 0 && sc < p.maxPoints;
+
+        let dotClass = 'status-dot';
+        if (isFull) dotClass += ' ac';
+        else if (isPartial) dotClass += ' partial';
+
+        return `
+          <button onclick="selectProblem('${p.key}')" class="prob-pill ${isSelected ? 'active' : ''}">
+            <span class="${dotClass}"></span>
+            <span>Bài ${p.num}: ${p.code}</span>
+            <span class="prob-pill-score">${sc.toFixed(1)}/${p.maxPoints.toFixed(1)}đ</span>
+          </button>
+        `;
+      }).join('');
+
+      updateTopScoreBadges();
+    }
+
+    function selectProblem(probKey) {
+      saveCurrentDraft();
+      currentProbKey = probKey;
+      renderProblemPills();
+      loadProblem(probKey);
+      resetJudgeConsole();
+    }
+
+    function loadProblem(probKey) {
+      const prob = PROBLEMS[currentExam].find(p => p.key === probKey);
+      if (!prob) return;
+
+      document.getElementById('prob-code-badge').textContent = prob.code;
+      document.getElementById('prob-points-badge').textContent = `${prob.maxPoints.toFixed(1).replace('.', ',')} điểm`;
+      document.getElementById('prob-title').textContent = prob.title;
+      document.getElementById('prob-inp-name').textContent = prob.inpFile;
+      document.getElementById('prob-out-name').textContent = prob.outFile;
+      document.getElementById('custom-inp-label').textContent = prob.inpFile;
+      document.getElementById('custom-out-label').textContent = prob.outFile;
+      document.getElementById('custom-input-box').value = prob.sampleInput || '';
+      document.getElementById('custom-output-wrapper').classList.add('hidden');
+      document.getElementById('judge-score-summary').textContent = `0.00 / ${prob.maxPoints.toFixed(2)} điểm`;
+
+      const k = draftKey(currentExam, probKey, currentLang);
+      const editor = document.getElementById('code-editor');
+      editor.value = codeDrafts[k] !== undefined ? codeDrafts[k] : getTemplate(currentExam, probKey, currentLang);
+    }
+
+    function loadSampleIntoCustom() {
+      const prob = PROBLEMS[currentExam].find(p => p.key === currentProbKey);
+      if (!prob) return;
+      document.getElementById('custom-input-box').value = prob.sampleInput || '';
+      showToast(`Đã nạp dữ liệu mẫu của ${prob.inpFile}`, 'info');
+    }
+
+    function resetJudgeConsole() {
+      const prob = PROBLEMS[currentExam].find(p => p.key === currentProbKey);
+      const badgeEl = document.getElementById('judge-overall-badge');
+      badgeEl.textContent = 'Chờ nộp';
+      badgeEl.className = 'verdict-badge verdict-wait';
+      document.getElementById('judge-score-summary').textContent = `0.00 / ${prob.maxPoints.toFixed(2)} điểm`;
+      document.getElementById('judge-console-body').innerHTML = `
+        <div class="judge-placeholder">
+          Bấm <strong>Nộp bài (Submit &amp; Judge)</strong> để hệ thống chấm tự động toàn bộ các test case theo từng Subtask và cập nhật điểm lên Bảng xếp hạng.
+        </div>
+      `;
+    }
+
+    // ==================== 6. C++ (WITH MACROS & BIGINT) / PYTHON / JS ENGINE ====================
+    function preprocessCppMacros(rawCode) {
+      // Remove block and line comments
+      let code = rawCode
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/\/\/.*$/gm, '');
+
+      const lines = code.split(/\r?\n/);
+      const macros = [];
+      const nonDirectiveLines = [];
+
+      for (let line of lines) {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('#define ')) {
+          const rest = trimmed.slice(8).trim();
+          // Skip function-like macros with params for safety unless simple
+          const m = rest.match(/^([A-Za-z_]\w*)\s+(.*)$/);
+          if (m) {
+            macros.push({ name: m[1], value: m[2].trim() });
+          } else {
+            // Flag macro with empty value
+            const mFlag = rest.match(/^([A-Za-z_]\w*)$/);
+            if (mFlag) macros.push({ name: mFlag[1], value: '' });
+          }
+        } else if (trimmed.startsWith('#')) {
+          // Ignore #include, #pragma, etc.
+        } else {
+          nonDirectiveLines.push(line);
+        }
+      }
+
+      let body = nonDirectiveLines.join('\n');
+
+      // Expand macros iteratively (up to 6 passes for nested macros)
+      for (let pass = 0; pass < 6; pass++) {
+        let changed = false;
+        for (const mac of macros) {
+          const rx = new RegExp(`\\b${mac.name}\\b`, 'g');
+          const nextBody = body.replace(rx, () => {
+            changed = true;
+            return mac.value;
+          });
+          body = nextBody;
+        }
+        if (!changed) break;
+      }
+
+      return body;
+    }
+
+    function extractBalancedBlock(str, openBraceIdx) {
+      let depth = 0;
+      let inStr = false;
+      let strChar = '';
+      for (let i = openBraceIdx; i < str.length; i++) {
+        const ch = str[i];
+        if (inStr) {
+          if (ch === '\\') { i++; continue; }
+          if (ch === strChar) inStr = false;
+          continue;
+        }
+        if (ch === '"' || ch === "'") {
+          inStr = true;
+          strChar = ch;
+        } else if (ch === '{') {
+          depth++;
+        } else if (ch === '}') {
+          depth--;
+          if (depth === 0) {
+            return {
+              content: str.slice(openBraceIdx + 1, i),
+              endIdx: i
+            };
+          }
+        }
+      }
+      throw new Error("Lỗi cú pháp C++: Thiếu dấu đóng ngoặc nhọn '}'");
+    }
+
+    function transpileCppStatementBlock(cppBlock) {
+      let s = cppBlock;
+
+      // Strip C++ boilerplate calls
+      s = s.replace(/ios_base::sync_with_stdio\s*\([^)]*\)\s*;/g, '');
+      s = s.replace(/ios::sync_with_stdio\s*\([^)]*\)\s*;/g, '');
+      s = s.replace(/cin\.tie\s*\([^)]*\)\s*;/g, '');
+      s = s.replace(/cout\.tie\s*\([^)]*\)\s*;/g, '');
+      s = s.replace(/freopen\s*\([^)]*\)\s*;/g, '');
+      s = s.replace(/\breturn\s+0\s*;/g, 'return __out.join("");');
+
+      // Replace C++ types with JS BigInt / helper wrappers
+      // Handle: vector<long long> a(n); or vector<int> a(n, 0);
+      s = s.replace(/\bvector\s*<[^>]+>\s+([A-Za-z_]\w*)\s*\(\s*([^,;)]+)\s*(?:,\s*([^)]+))?\)\s*;/g, (_, name, sz, initVal) => {
+        const fillV = initVal ? `__toBig(${initVal})` : '0n';
+        return `let ${name} = Array(Number(${sz})).fill(${fillV});`;
+      });
+      s = s.replace(/\bvector\s*<[^>]+>\s+([A-Za-z_]\w*)\s*;/g, 'let $1 = [];');
+
+      // Handle string declarations: string s, t = "";
+      s = s.replace(/\bstring\s+([^;]+);/g, (_, decls) => {
+        const parts = decls.split(',').map(p => {
+          const eq = p.indexOf('=');
+          if (eq >= 0) return p.trim();
+          return `${p.trim()} = ""`;
+        });
+        return `let ${parts.join(', ')};`;
+      });
+
+      // Handle integer declarations: signed/unsigned/long long/int/short
+      const intTypePattern = /\b(?:unsigned\s+|signed\s+)?(?:long\s+long|long|int|short)\s+([^;()]+);/g;
+      s = s.replace(intTypePattern, (fullMatch, decls) => {
+        // Avoid matching inside for(...) header if somehow matched
+        const parts = decls.split(',').map(part => {
+          const p = part.trim();
+          const eqIdx = p.indexOf('=');
+          if (eqIdx >= 0) {
+            const vName = p.slice(0, eqIdx).trim();
+            const vExpr = p.slice(eqIdx + 1).trim();
+            return `${vName} = __toBig(${vExpr})`;
+          }
+          // Handle C-style static array: a[1005]
+          const arrMatch = p.match(/^([A-Za-z_]\w*)\s*\[([^\]]+)\]$/);
+          if (arrMatch) {
+            return `${arrMatch[1]} = Array(Number(${arrMatch[2]})).fill(0n)`;
+          }
+          return `${p} = 0n`;
+        });
+        return `let ${parts.join(', ')};`;
+      });
+
+      // Handle for-loop integer initializer: for (long long i = 1; ...)
+      s = s.replace(/\bfor\s*\(\s*(?:unsigned\s+|signed\s+)?(?:long\s+long|long|int)\s+([A-Za-z_]\w*)\s*=\s*([^;]+);/g,
+        'for (let $1 = __toBig($2);');
+
+      // Handle cin >> a >> b >> c;
+      s = s.replace(/\bcin\s*((?:>>\s*[^;]+)+);/g, (_, chain) => {
+        const vars = chain.split('>>').map(v => v.trim()).filter(Boolean);
+        return vars.map(v => `${v} = __readToken(${v});`).join(' ');
+      });
+
+      // Handle getline(cin, s);
+      s = s.replace(/\bgetline\s*\(\s*cin\s*,\s*([A-Za-z_]\w*)\s*\)\s*;/g, '$1 = __readLine();');
+
+      // Handle cout << x << " " << endl;
+      s = s.replace(/\bcout\s*((?:<<\s*[^;]+)+);/g, (_, chain) => {
+        const items = chain.split('<<').map(v => v.trim()).filter(Boolean);
+        return items.map(item => {
+          if (item === 'endl' || item === "'\\n'" || item === '"\\n"') {
+            return `__out.push("\\n");`;
+          }
+          return `__out.push(__formatOut(${item}));`;
+        }).join(' ');
+      });
+
+      // Common STL functions
+      s = s.replace(/\bsort\s*\(\s*([A-Za-z_]\w*)\.begin\(\)\s*,\s*\1\.end\(\)\s*\)\s*;/g,
+        '$1.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));');
+      s = s.replace(/\breverse\s*\(\s*([A-Za-z_]\w*)\.begin\(\)\s*,\s*\1\.end\(\)\s*\)\s*;/g,
+        '$1.reverse();');
+      s = s.replace(/\.push_back\s*\(/g, '.push(');
+      s = s.replace(/\.size\s*\(\)/g, '.length');
+      s = s.replace(/\.length\s*\(\)/g, '.length');
+      s = s.replace(/\.empty\s*\(\)/g, '.length === 0');
+
+      // Convert standalone integer literals into BigInt literals (e.g., 0 -> 0n, 100 -> 100n)
+      // Protect strings, chars, floats, and identifiers
+      s = s.replace(/("(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\b\d+\.\d+\b|\b[A-Za-z_]\w*\b|\b\d+\b)/g, (tok) => {
+        if (/^\d+$/.test(tok)) return `${tok}n`;
+        return tok;
+      });
+
+      return s;
+    }
+
+    function transpileCppToJs(rawCpp) {
+      const code = preprocessCppMacros(rawCpp);
+
+      // Find main entry point: signed main(), int main(), void main(), main()
+      const mainRegex = /\b(?:signed|int|void)?\s*main\s*\([^)]*\)\s*\{/;
+      const match = mainRegex.exec(code);
+      if (!match) {
+        throw new Error("Không tìm thấy hàm main() hợp lệ trong mã nguồn C++.");
+      }
+
+      const openBraceIdx = match.index + match[0].length - 1;
+      const mainBlock = extractBalancedBlock(code, openBraceIdx);
+
+      // Extract any helper functions or global declarations before main()
+      const beforeMain = code.slice(0, match.index).replace(/\busing\s+namespace\s+std\s*;/g, '').trim();
+      const transpiledGlobals = beforeMain ? transpileCppStatementBlock(beforeMain) : '';
+      const transpiledMain = transpileCppStatementBlock(mainBlock.content);
+
+      return `
+        const __lines = __rawInput.replace(/\\r/g, '').split('\\n');
+        let __lineIdx = 0;
+        const __tokens = __rawInput.trim().length ? __rawInput.trim().split(/\\s+/) : [];
+        let __tokIdx = 0;
+        const __out = [];
+
+        function __toBig(v) {
+          if (typeof v === 'bigint') return v;
+          if (typeof v === 'number') return BigInt(Math.trunc(v));
+          if (typeof v === 'boolean') return v ? 1n : 0n;
+          if (typeof v === 'string') {
+            const t = v.trim();
+            if (/^-?\\d+$/.test(t)) return BigInt(t);
+            return v;
+          }
+          return 0n;
+        }
+
+        function __readToken(sampleVar) {
+          if (__tokIdx >= __tokens.length) return typeof sampleVar === 'string' ? '' : 0n;
+          const tok = __tokens[__tokIdx++];
+          if (typeof sampleVar === 'string') return tok;
+          if (/^-?\\d+$/.test(tok)) return BigInt(tok);
+          return tok;
+        }
+
+        function __readLine() {
+          if (__lineIdx >= __lines.length) return '';
+          return __lines[__lineIdx++];
+        }
+
+        function __formatOut(v) {
+          if (typeof v === 'bigint') return v.toString();
+          return String(v);
+        }
+
+        function __gcd(a, b) {
+          a = __toBig(a); b = __toBig(b);
+          if (a < 0n) a = -a;
+          if (b < 0n) b = -b;
+          while (b !== 0n) { const t = a % b; a = b; b = t; }
+          return a;
+        }
+
+        function abs(x) {
+          x = __toBig(x);
+          return x < 0n ? -x : x;
+        }
+
+        function min(a, b) {
+          a = __toBig(a); b = __toBig(b);
+          return a < b ? a : b;
+        }
+
+        function max(a, b) {
+          a = __toBig(a); b = __toBig(b);
+          return a > b ? a : b;
+        }
+
+        function sqrt(x) {
+          const n = __toBig(x);
+          if (n < 2n) return n;
+          let lo = 1n, hi = n, ans = 1n;
+          while (lo <= hi) {
+            const mid = (lo + hi) / 2n;
+            if (mid * mid <= n) { ans = mid; lo = mid + 1n; }
+            else hi = mid - 1n;
+          }
+          return ans;
+        }
+
+        function isdigit(ch) {
+          return typeof ch === 'string' && ch.length === 1 && ch >= '0' && ch <= '9';
+        }
+
+        function toupper(ch) {
+          return typeof ch === 'string' ? ch.toUpperCase() : ch;
+        }
+
+        function tolower(ch) {
+          return typeof ch === 'string' ? ch.toLowerCase() : ch;
+        }
+
+        ${transpiledGlobals}
+        ${transpiledMain}
+        return __out.join('');
+      `;
+    }
+
+    function transpilePythonToJs(pyCode) {
+      const lines = pyCode.split(/\r?\n/);
+      let jsLines = [
+        `let __tokens = __rawInput.trim().length ? __rawInput.trim().split(/\\s+/) : [];`,
+        `let __tokIdx = 0;`,
+        `let __out = [];`,
+        `function input() { return __tokIdx < __tokens.length ? __tokens[__tokIdx++] : ''; }`,
+        `function print(...args) { __out.push(args.join(' ') + '\\n'); }`,
+        `const sys = { stdin: { read: () => __rawInput } };`,
+        `const math = Math;`
+      ];
+
+      let indentStack = [0];
+      for (let rawLine of lines) {
+        const trimmed = rawLine.trim();
+        if (!trimmed || trimmed.startsWith('#')) continue;
+        if (trimmed.startsWith('import ') || trimmed.startsWith('from ')) continue;
+
+        const indent = rawLine.match(/^\s*/)[0].length;
+        while (indent < indentStack[indentStack.length - 1]) {
+          indentStack.pop();
+          jsLines.push(' '.repeat(indentStack[indentStack.length - 1]) + '}');
+        }
+
+        let stmt = trimmed;
+        stmt = stmt.replace(/^([a-zA-Z_]\w*(?:\s*,\s*[a-zA-Z_]\w*)+)\s*=\s*map\s*\(\s*int\s*,\s*input\(\)\.split\(\)\s*\)$/, (_, vars) => {
+          return vars.split(',').map(v => `let ${v.trim()} = Number(input());`).join(' ');
+        });
+        stmt = stmt.replace(/^([a-zA-Z_]\w*)\s*=\s*int\s*\(\s*input\(\)\s*\)$/, 'let $1 = Number(input());');
+        stmt = stmt.replace(/^([a-zA-Z_]\w*)\s*=\s*input\(\)\.strip\(\)$/, 'let $1 = input();');
+        stmt = stmt.replace(/^([a-zA-Z_]\w*)\s*=\s*list\s*\(\s*map\s*\(\s*int\s*,\s*input\(\)\.split\(\)\s*\)\s*\)$/, 'let $1 = __tokens.slice(__tokIdx).map(Number);');
+
+        if (stmt.endsWith(':')) {
+          let head = stmt.slice(0, -1);
+          head = head.replace(/^elif\s+/, '} else if (');
+          if (head.startsWith('if ')) head = 'if (' + head.slice(3) + ') {';
+          else if (head.startsWith('} else if (')) head = head + ') {';
+          else if (head === 'else') head = '} else {';
+          else if (head.startsWith('while ')) head = 'while (' + head.slice(6) + ') {';
+          else if (/^for\s+(\w+)\s+in\s+range\(([^)]+)\)$/.test(head)) {
+            const m = head.match(/^for\s+(\w+)\s+in\s+range\(([^)]+)\)$/);
+            const args = m[2].split(',').map(s => s.trim());
+            if (args.length === 1) head = `for (let ${m[1]} = 0; ${m[1]} < ${args[0]}; ${m[1]}++) {`;
+            else if (args.length === 2) head = `for (let ${m[1]} = ${args[0]}; ${m[1]} < ${args[1]}; ${m[1]}++) {`;
+            else head = `for (let ${m[1]} = ${args[0]}; ${m[1]} < ${args[1]}; ${m[1]} += ${args[2]}) {`;
+          } else if (/^for\s+(\w+)\s+in\s+(.+)$/.test(head)) {
+            const m = head.match(/^for\s+(\w+)\s+in\s+(.+)$/);
+            head = `for (let ${m[1]} of ${m[2]}) {`;
+          }
+          head = head.replace(/\band\b/g, '&&').replace(/\bor\b/g, '||').replace(/\bnot\b/g, '!').replace(/\/\//g, '/');
+          jsLines.push(' '.repeat(indent) + head);
+          indentStack.push(indent + 4);
+        } else {
+          stmt = stmt.replace(/\/\//g, '/');
+          if (/^[a-zA-Z_]\w*\s*=[^=]/.test(stmt) && !stmt.startsWith('let ')) {
+            stmt = 'var ' + stmt;
+          }
+          jsLines.push(' '.repeat(indent) + stmt + ';');
+        }
+      }
+      while (indentStack.length > 1) {
+        indentStack.pop();
+        jsLines.push('}');
+      }
+      jsLines.push(`return __out.join('');`);
+      return jsLines.join('\n');
+    }
+
+    function executeUserSubmission(code, lang, rawInput) {
+      let jsBody = '';
+      if (lang === 'cpp') {
+        jsBody = transpileCppToJs(code);
+      } else if (lang === 'python') {
+        jsBody = transpilePythonToJs(code);
+      } else {
+        jsBody = `
+          const __out = [];
+          const console = { log: (...a) => __out.push(a.join(' ') + '\\n') };
+          const require = (mod) => {
+            if (mod === 'fs') return { readFileSync: () => __rawInput };
+            return {};
+          };
+          ${code}
+          return __out.join('');
+        `;
+      }
+
+      const fn = new Function('__rawInput', jsBody);
+      const t0 = performance.now();
+      const result = fn(rawInput);
+      const t1 = performance.now();
+      return {
+        output: String(result ?? ''),
+        timeMs: Math.max(1, Math.round(t1 - t0))
+      };
+    }
+
+    // ==================== 7. RUN CUSTOM TEST & OFFICIAL JUDGE ====================
+    function runCustomTest() {
+      saveCurrentDraft();
+      const code = document.getElementById('code-editor').value.trim();
+      if (!code) {
+        showToast('Vui lòng nhập mã nguồn trước khi chạy thử!', 'warning');
+        return;
+      }
+
+      const customInput = document.getElementById('custom-input-box').value;
+      const outWrap = document.getElementById('custom-output-wrapper');
+      const outBox = document.getElementById('custom-output-box');
+      const timeLabel = document.getElementById('custom-exec-time');
+
+      outWrap.classList.remove('hidden');
+      try {
+        const exec = executeUserSubmission(code, currentLang, customInput);
+        timeLabel.textContent = `${exec.timeMs}ms`;
+        outBox.className = 'custom-output-pre';
+        outBox.textContent = exec.output || '(Chương trình không xuất ra dữ liệu nào)';
+      } catch (err) {
+        timeLabel.textContent = 'Lỗi';
+        outBox.className = 'custom-output-pre error';
+        outBox.textContent = err.message || String(err);
+      }
+    }
+
+    async function runJudge() {
+      saveCurrentDraft();
+      const code = document.getElementById('code-editor').value.trim();
+      if (!code) {
+        showToast('Vui lòng nhập mã nguồn trước khi nộp bài!', 'warning');
+        return;
+      }
+
+      if (!contestantProfile.name) {
+        openProfileModal();
+        showToast('Vui lòng nhập Họ tên & Trường/Lớp để lưu điểm lên Bảng xếp hạng!', 'info');
+        return;
+      }
+
+      const prob = PROBLEMS[currentExam].find(p => p.key === currentProbKey);
+      const testSuite = prob.tests.map((t, idx) => ({ ...t, name: `Test #${idx + 1} (Subtask ${t.subtask})` }));
+
+      const consoleBody = document.getElementById('judge-console-body');
+      const consoleTitle = document.getElementById('judge-mode-title');
+      const badgeEl = document.getElementById('judge-overall-badge');
+      const scoreEl = document.getElementById('judge-score-summary');
+
+      consoleTitle.textContent = `Kết quả chấm — ${prob.code}`;
+
+      let earnedPoints = 0;
+      let passedCount = 0;
+      let maxTimeMs = 0;
+      let compileErrorMsg = null;
+      const results = [];
+      const TIME_LIMIT_MS = 1000;
+
+      for (const tc of testSuite) {
+        try {
+          const exec = executeUserSubmission(code, currentLang, tc.input);
+          maxTimeMs = Math.max(maxTimeMs, exec.timeMs);
+
+          if (exec.timeMs > TIME_LIMIT_MS) {
+            results.push({ name: tc.name, status: 'TLE', timeMs: exec.timeMs, points: 0, maxPoints: tc.points });
+            continue;
+          }
+
+          const normActual = exec.output.split(/\r?\n/).map(l => l.trim()).filter(Boolean).join('\n');
+          const normExpected = tc.expected.split(/\r?\n/).map(l => l.trim()).filter(Boolean).join('\n');
+
+          const ok = normActual === normExpected;
+          if (ok) {
+            passedCount++;
+            earnedPoints += tc.points;
+          }
+          results.push({
+            name: tc.name,
+            status: ok ? 'AC' : 'WA',
+            timeMs: exec.timeMs,
+            points: ok ? tc.points : 0,
+            maxPoints: tc.points
+          });
+        } catch (err) {
+          compileErrorMsg = err.message || String(err);
+          break;
+        }
+      }
+
+      if (compileErrorMsg) {
+        badgeEl.textContent = 'CE / RTE';
+        badgeEl.className = 'verdict-badge verdict-wa';
+        scoreEl.textContent = `0.00 / ${prob.maxPoints.toFixed(2)} điểm`;
+        consoleBody.innerHTML = `<div class="ce-box"><strong>Lỗi biên dịch / thực thi:</strong>\n${escapeHtml(compileErrorMsg)}</div>`;
+        if (window.syncScoreToCloud) {
+          await window.syncScoreToCloud(currentExam, currentProbKey, 0, 'CE', currentLang, 0);
+        }
+        return;
+      }
+
+      earnedPoints = +earnedPoints.toFixed(2);
+      const allPassed = passedCount === testSuite.length;
+      const hasTLE = results.some(r => r.status === 'TLE');
+      const overallStatus = allPassed ? 'AC' : (earnedPoints > 0 ? 'PARTIAL' : (hasTLE ? 'TLE' : 'WA'));
+
+      if (allPassed) {
+        badgeEl.textContent = `AC (${passedCount}/${testSuite.length})`;
+        badgeEl.className = 'verdict-badge verdict-ac';
+      } else if (earnedPoints > 0) {
+        badgeEl.textContent = `Một phần (${passedCount}/${testSuite.length})`;
+        badgeEl.className = 'verdict-badge verdict-partial';
+      } else {
+        badgeEl.textContent = `${overallStatus} (0/${testSuite.length})`;
+        badgeEl.className = 'verdict-badge verdict-wa';
+      }
+
+      scoreEl.textContent = `${earnedPoints.toFixed(2)} / ${prob.maxPoints.toFixed(2)} điểm`;
+
+      consoleBody.innerHTML = `
+        <div class="tc-list">
+          ${results.map(r => {
+            const cls = r.status === 'AC' ? 'ac' : r.status === 'TLE' ? 'tle' : 'wa';
+            return `
+              <div class="tc-item ${cls}">
+                <div>
+                  <div style="font-weight: 700; color: #f8fafc;">${r.name}</div>
+                  <div style="font-size: 11px; color: #94a3b8;">Điểm: <strong>${r.points.toFixed(2)}/${r.maxPoints.toFixed(2)}</strong></div>
+                </div>
+                <span class="tc-tag ${cls}">${r.status} • ${r.timeMs}ms</span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      if (window.syncScoreToCloud) {
+        await window.syncScoreToCloud(currentExam, currentProbKey, earnedPoints, overallStatus, currentLang, maxTimeMs);
+        showToast(
+          allPassed
+            ? `Tuyệt vời! Bạn đạt tối đa ${earnedPoints.toFixed(2)} điểm bài ${prob.code}!`
+            : `Đã chấm xong bài ${prob.code}: ${earnedPoints.toFixed(2)}/${prob.maxPoints.toFixed(2)} điểm.`,
+          allPassed ? 'success' : 'info'
+        );
+      }
+    }
+
+    // ==================== 8. LEADERBOARD & SUBMISSIONS ====================
+    function setLeaderboardFilter(filter) {
+      lbFilter = filter;
+      document.querySelectorAll('.lb-filter-btn').forEach(btn => btn.classList.remove('active'));
+      const active = document.getElementById(`lb-filter-${filter}`);
+      if (active) active.classList.add('active');
+      renderLeaderboard();
+    }
+
+    function renderLeaderboard() {
+      const thead = document.getElementById('leaderboard-thead');
+      const tbody = document.getElementById('leaderboard-tbody');
+      const rawList = window.getLeaderboardData ? [...window.getLeaderboardData()] : [];
+      const myUid = window.getCurrentUserId ? window.getCurrentUserId() : null;
+
+      rawList.sort((a, b) => {
+        const sa = lbFilter === 'exam1' ? (a.total1 || 0) : lbFilter === 'exam2' ? (a.total2 || 0) : (a.totalAll || 0);
+        const sb = lbFilter === 'exam1' ? (b.total1 || 0) : lbFilter === 'exam2' ? (b.total2 || 0) : (b.totalAll || 0);
+        if (sb !== sa) return sb - sa;
+        if ((b.acCount || 0) !== (a.acCount || 0)) return (b.acCount || 0) - (a.acCount || 0);
+        return (a.lastSubmit || 0) - (b.lastSubmit || 0);
+      });
+
+      if (lbFilter === 'all') {
+        thead.innerHTML = `
+          <th class="text-center" style="width: 64px;">Hạng</th>
+          <th>Thí sinh</th>
+          <th>Trường / Lớp</th>
+          <th class="text-center">Đề 01 (20đ)</th>
+          <th class="text-center">Đề 02 (20đ)</th>
+          <th class="text-center">Số bài AC</th>
+          <th class="text-right">Tổng điểm (40đ)</th>
+        `;
+      } else {
+        const probs = PROBLEMS[lbFilter];
+        thead.innerHTML = `
+          <th class="text-center" style="width: 64px;">Hạng</th>
+          <th>Thí sinh</th>
+          <th>Trường / Lớp</th>
+          ${probs.map(p => `<th class="text-center font-mono-code">${p.code}<br><span style="font-size: 10px; color: #94a3b8;">(${p.maxPoints}đ)</span></th>`).join('')}
+          <th class="text-right">Tổng điểm</th>
+        `;
+      }
+
+      if (rawList.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="10" class="text-center" style="padding: 36px; color: #94a3b8;">
+              Chưa có thí sinh nào ghi điểm trên bảng xếp hạng. Hãy chọn bài và bấm <strong>Nộp bài (Submit &amp; Judge)</strong> để ghi danh!
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = rawList.map((row, idx) => {
+        const rank = idx + 1;
+        let rankBadge = `<span class="font-mono-code" style="font-weight: 700; color: #94a3b8;">#${rank}</span>`;
+        if (rank === 1) rankBadge = `<span style="display:inline-block;padding:2px 8px;border-radius:999px;background:#fbbf24;color:#090d16;font-weight:800;font-size:12px;">🥇 1</span>`;
+        else if (rank === 2) rankBadge = `<span style="display:inline-block;padding:2px 8px;border-radius:999px;background:#cbd5e1;color:#090d16;font-weight:800;font-size:12px;">🥈 2</span>`;
+        else if (rank === 3) rankBadge = `<span style="display:inline-block;padding:2px 8px;border-radius:999px;background:#b45309;color:#ffffff;font-weight:800;font-size:12px;">🥉 3</span>`;
+
+        const isMe = myUid && row.uid === myUid;
+        const meBadge = isMe ? '<span style="margin-left:6px;font-size:10px;padding:2px 6px;border-radius:5px;background:#2563eb;color:#fff;font-weight:700;">Bạn</span>' : '';
+
+        if (lbFilter === 'all') {
+          return `
+            <tr class="${isMe ? 'row-me' : ''}">
+              <td class="text-center">${rankBadge}</td>
+              <td style="font-weight: 700; color: #ffffff;">${escapeHtml(row.name || 'Ẩn danh')}${meBadge}</td>
+              <td style="color: #94a3b8;">${escapeHtml(row.school || '—')}</td>
+              <td class="text-center font-mono-code" style="font-weight: 700;">${(row.total1 || 0).toFixed(2)}</td>
+              <td class="text-center font-mono-code" style="font-weight: 700;">${(row.total2 || 0).toFixed(2)}</td>
+              <td class="text-center font-mono-code" style="color: #34d399; font-weight: 700;">${row.acCount || 0}/10</td>
+              <td class="text-right font-mono-code" style="font-weight: 800; font-size: 15px; color: #60a5fa;">${(row.totalAll || 0).toFixed(2)}</td>
+            </tr>
+          `;
+        } else {
+          const examScores = row[lbFilter] || {};
+          const probs = PROBLEMS[lbFilter];
+          const examTotal = lbFilter === 'exam1' ? (row.total1 || 0) : (row.total2 || 0);
+          return `
+            <tr class="${isMe ? 'row-me' : ''}">
+              <td class="text-center">${rankBadge}</td>
+              <td style="font-weight: 700; color: #ffffff;">${escapeHtml(row.name || 'Ẩn danh')}${meBadge}</td>
+              <td style="color: #94a3b8;">${escapeHtml(row.school || '—')}</td>
+              ${probs.map(p => {
+                const sc = examScores[p.key] || 0;
+                const color = sc >= p.maxPoints ? '#34d399' : sc > 0 ? '#fbbf24' : '#64748b';
+                return `<td class="text-center font-mono-code" style="font-weight:700;color:${color};">${sc.toFixed(1)}</td>`;
+              }).join('')}
+              <td class="text-right font-mono-code" style="font-weight: 800; font-size: 15px; color: #60a5fa;">${examTotal.toFixed(2)}</td>
+            </tr>
+          `;
+        }
+      }).join('');
+    }
+
+    function renderSubmissions() {
+      const tbody = document.getElementById('submissions-tbody');
+      const list = window.getSubmissionsData ? window.getSubmissionsData() : [];
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="padding: 36px; color: #94a3b8;">Chưa có lượt nộp bài nào được ghi nhận.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(sub => {
+        const d = sub.timestamp ? new Date(sub.timestamp) : new Date();
+        const timeStr = d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const cls = sub.status === 'AC' ? 'ac' : sub.status === 'PARTIAL' ? 'tle' : 'wa';
+
+        return `
+          <tr>
+            <td class="font-mono-code" style="font-size: 12px; color: #94a3b8;">${timeStr}</td>
+            <td style="font-weight: 700; color: #ffffff;">${escapeHtml(sub.name)}</td>
+            <td style="color: #94a3b8;">${escapeHtml(sub.school)}</td>
+            <td>
+              <span style="font-size:11px;font-weight:700;color:#93c5fd;background:rgba(30,58,138,0.5);padding:2px 6px;border-radius:5px;">${sub.examName}</span>
+              <span class="font-mono-code" style="font-weight:700;margin-left:5px;">${sub.probCode}</span>
+            </td>
+            <td class="font-mono-code" style="font-size: 12px; color: #cbd5e1;">${sub.lang}</td>
+            <td class="text-center"><span class="tc-tag ${cls}">${sub.status}</span></td>
+            <td class="text-right font-mono-code" style="font-weight: 700;">${Number(sub.score || 0).toFixed(2)} / ${Number(sub.maxScore || 0).toFixed(1)}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // ==================== 9. UTILITIES & BOOTSTRAP ====================
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const el = document.createElement('div');
+      el.className = `toast-item ${type}`;
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        setTimeout(() => el.remove(), 260);
+      }, 3500);
+    }
+
+    document.getElementById('code-editor').addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const start = this.selectionStart;
+        const end = this.selectionEnd;
+        this.value = this.value.substring(0, start) + '    ' + this.value.substring(end);
+        this.selectionStart = this.selectionEnd = start + 4;
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateProfileHeaderUI();
+      renderProblemPills();
+      loadProblem('b1');
+      updateTimerUI();
+      renderLeaderboard();
+      renderSubmissions();
+    });
+  </script>
+</body>
+</html>
